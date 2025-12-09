@@ -1,0 +1,146 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(to bottom right, #ffe4ec, #ffffff);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+}
+
+.main-container {
+  display: flex;
+  gap: 30px;
+  padding: 40px;
+  width: 90%;
+  max-width: 1400px;
+}
+
+.left {
+  flex: 1.3;
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Kolom kanan (history) */
+.right {
+  flex: 0.9;
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  height: fit-content;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.preview-container {
+  width: 100%;
+  min-height: 300px;
+  border: 2px dashed #ff8dbd;
+  border-radius: 15px;
+  background: #fff7fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.preview-img {
+  width: 100%;
+  height: auto;
+  display: none;
+}
+
+.preview-img[src] {
+  display: block;
+  border-radius: 15px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.history-list li {
+  margin-bottom: 15px;
+  display: flex;
+}
+
+.history-list a {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  background: #fff7fb;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ffb7d9;
+  color: #444;
+  transition: 0.3s;
+}
+
+.history-list a:hover {
+  background: #ffe0f1;
+}
+
+.history-list img {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.upload-box {
+  display: block;
+  width: 100%;
+  border: 2px dashed #ff8dbd;
+  padding: 40px 20px;
+  border-radius: 15px;
+  background: #fff7fb;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.upload-box:hover {
+  background: #ffe3f0;
+  border-color: #ff3b85;
+}
+
+.upload-text {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+button[type="submit"] {
+  margin-top: 20px;
+  width: 100%;
+  padding: 14px;
+  background: #ff3b85;
+  color: white;
+  border: none;
+  font-size: 17px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button[type="submit"]:hover {
+  background: #e4236f;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #ff3b85;
+}

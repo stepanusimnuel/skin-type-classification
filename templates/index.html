@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Skin Type Detector</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+
+  <body>
+    <div class="main-container">
+      <div class="left">
+        <h2>Skin Type Detector</h2>
+
+        <form action="/" method="POST" enctype="multipart/form-data">
+          <label for="file" class="upload-box" id="uploadBox">
+            <div class="upload-text">
+              <strong>Click to upload</strong><br />
+              or drag your photo here
+            </div>
+          </label>
+
+          <input id="file" type="file" name="file" accept="image/*" />
+
+          <div class="preview-container">
+            <img id="previewImage" class="preview-img" data-filename="{{ preview_image or '' }}" {% if preview_image %} src="{{ url_for('uploaded_file', filename=preview_image) }}" {% endif %} />
+          </div>
+
+          <button type="submit">Analyze Skin</button>
+        </form>
+
+        {% if prediction_result %}
+        <div class="result" id="resultBox" data-pred="{{ prediction_result }}">Skin Type: <span id="resultLabel">{{ prediction_result }}</span></div>
+        {% else %}
+        <div class="result" id="resultBox" data-pred=""></div>
+        {% endif %}
+      </div>
+
+      <div class="right">
+        <h3>History</h3>
+        <ul class="history-list" id="historyList"></ul>
+      </div>
+    </div>
+
+    <script>
+      const previewImage = document.getElementById("previewImage");
+      const resultBox = document.getElementById("resultBox");
+      const historyList = document.getElementById("historyList");
+
+      // ================= READ LOCAL STORAGE =================
+      function loadHistory() {
+        const data = JSON.parse(localStorage.getItem("skinHistory") || "[]");
+        historyList.innerHTML = "";
+
+        data.forEach((item) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <a href="#" onclick="loadFromHistory(${item.id})">
+              <img src="/uploads/${item.filename}" />
+              <div>
+                <strong>ID ${item.id}</strong><br />
+                ${item.prediction}
+              </div>
+            </a>
+          `;
+          historyList.appendChild(li);
+        });
+      }
+
+      // ================= ADD NEW HISTORY ITEM =================
+      function addHistory(filename, prediction) {
+        let history = JSON.parse(localStorage.getItem("skinHistory") || "[]");
+
+        const newItem = {
+          id: history.length + 1,
+          filename: filename,
+          prediction: prediction,
+        };
+
+        history.push(newItem);
+        localStorage.setItem("skinHistory", JSON.stringify(history));
+      }
+
+      function loadFromHistory(id) {
+        let history = JSON.parse(localStorage.getItem("skinHistory") || "[]");
+        const item = history.find((x) => x.id === id);
+        if (!item) return;
+
+        previewImage.src = "/uploads/" + item.filename;
+        previewImage.style.display = "block";
+        resultBox.innerHTML = `Skin Type: <span>${item.prediction}</span>`;
+      }
+
+      const newFilename = previewImage.dataset.filename;
+      const newPrediction = resultBox.dataset.pred;
+
+      if (newFilename && newPrediction) {
+        addHistory(newFilename, newPrediction);
+      }
+
+      const fileInput = document.getElementById("file");
+      fileInput.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        previewImage.src = URL.createObjectURL(file);
+        previewImage.style.display = "block";
+      });
+
+      loadHistory();
+    </script>
+  </body>
+</html>
