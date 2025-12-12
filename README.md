@@ -57,6 +57,8 @@ http://127.0.0.1:5000
 skin-type-detector/
 │
 ├── app.py  # Main Flask application
+├── notebook/
+│   └── Image_Classification_EfficientNetB0.ipynb # notebook for EfficientNet-B0 skin type classification
 │
 ├── models/
 │   └── classification_model_best.pth  # Trained EfficientNet model
